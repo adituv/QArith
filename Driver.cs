@@ -32,12 +32,13 @@ namespace QArith
                 System.Console.WriteLine("QInt #1:");
                 for(int i = 0; i < 4; i++) {
                     var (x,y) = FromBlochSphere(thetas1[i], phis1[i]);
-                    System.Console.Write(
-                        $"({x:N2}|0> + ({y.Real:N2} + {y.Imaginary:N2}i|1>) "
+                    System.Console.WriteLine(
+                        $"\t{x,4:N2}|0> + ({y.Real,5:N2} + {y.Imaginary,5:N2}i)|1>"
                     );
                 }
                 System.Console.WriteLine();
-                System.Console.WriteLine("Bit probabilities:");
+                System.Console.WriteLine("P(bit == 1):");
+                System.Console.Write("\t");
                 for(int i = 0; i < 4; i++) {
                     var (x,y) = FromBlochSphere(thetas1[i], phis1[i]);
                     System.Console.Write(
@@ -49,12 +50,13 @@ namespace QArith
                 System.Console.WriteLine("QInt #2:");
                 for(int i = 0; i < 4; i++) {
                     var (x,y) = FromBlochSphere(thetas2[i], phis2[i]);
-                    System.Console.Write(
-                        $"({x:N2}|0> + ({y.Real:N2} + {y.Imaginary:N2}i|1>) "
+                    System.Console.WriteLine(
+                        $"\t{x,4:N2}|0> + ({y.Real,5:N2} + {y.Imaginary,5:N2}i)|1>"
                     );
                 }
                 System.Console.WriteLine();
-                System.Console.WriteLine("Bit probabilities:");
+                System.Console.WriteLine("P(bit == 1):");
+                System.Console.Write("\t");
                 for(int i = 0; i < 4; i++) {
                     var (x,y) = FromBlochSphere(thetas2[i], phis2[i]);
                     System.Console.Write(
@@ -75,6 +77,12 @@ namespace QArith
             var xcomp = Math.Cos(theta/2);
             var ycomp = Complex.Exp(phi * Complex.ImaginaryOne) * Math.Sin(theta/2);
 
+            // Normalize the result just in case
+            var normFactor = Math.Sqrt(xcomp * xcomp + ycomp.Magnitude);
+
+            xcomp /= normFactor;
+            ycomp /= normFactor;
+            
             return (xcomp, ycomp);
         }
     }
