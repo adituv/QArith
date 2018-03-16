@@ -25,9 +25,13 @@ namespace QArith
                     phis2[i] = randGen.NextDouble() * 2 * Math.PI;
                 }
 
-                var res = AddTest.Run(sim, new QArray<double>(thetas1), new QArray<double>(phis1), new QArray<double>(thetas2), new QArray<double>(phis2)).Result;
-                var (sum,op2) = res;
-                var op1 = (sum - op2 + 16) % 16;
+                var res = AddTest.Run( sim
+                                     , new QArray<double>(thetas1)
+                                     , new QArray<double>(phis1)
+                                     , new QArray<double>(thetas2)
+                                     , new QArray<double>(phis2)
+                                     , 10
+                                     ).Result;
 
                 System.Console.WriteLine("QInt #1:");
                 for(int i = 0; i < 4; i++) {
@@ -65,9 +69,12 @@ namespace QArith
                 }
                 System.Console.WriteLine();
                 System.Console.WriteLine();
-                System.Console.WriteLine(
-                    $"Measured sum: {sum,3}.  Measured op2: {op2,3}.  Inferred op1: {op1,3}."
-                );
+
+                foreach(var (op1, op2, sum) in res) {
+                    System.Console.WriteLine(
+                        $"{op1} + {op2} = {sum}"
+                    );
+                }
             }
             System.Console.WriteLine("Press any key to continue...");
             System.Console.ReadKey();
